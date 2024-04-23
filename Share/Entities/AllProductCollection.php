@@ -2,7 +2,7 @@
 
 namespace app\Share\Entities;
 
-class ProductCollection
+class AllProductCollection
 {
     /**
      * @var array<int[]>
@@ -14,9 +14,9 @@ class ProductCollection
      */
     private array $productsById;
 
-    public function add(string $code, Product $dish): void
+    public function add(Product $dish): void
     {
-        $this->groupProductsByCode[$code][] = $dish->getId();
+        $this->groupProductsByCode[$dish->getCode()][] = $dish->getId();
         $this->productsById[$dish->getId()] = $dish;
 
     }

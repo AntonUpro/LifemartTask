@@ -2,7 +2,7 @@
 
 namespace app\Share\Entities;
 
-class Dish
+class Product
 {
     private int $id;
     private string $ingredientTitle;
