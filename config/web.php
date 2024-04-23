@@ -14,7 +14,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '',
+            'cookieValidationKey' => 'key',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -42,14 +42,47 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
+        'response' => [
+            'class' => \yii\web\Response::class,
+            'format' => \yii\web\Response::FORMAT_JSON,
+            'formatters' => [
+                \yii\web\Response::FORMAT_JSON => [
+                    'class' => \yii\web\JsonResponseFormatter::class,
+                    'prettyPrint' => YII_DEBUG, // используем "pretty" в режиме отладки
+                    'encodeOptions' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
+                ],
             ],
         ],
-        */
+        'urlManager' => [
+            'class' => yii\web\UrlManager::class,
+            'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
+            'showScriptName' => false,
+            'rules' => [
+                'GET api/v1/recipe' => 'recipe/get',
+            ],
+        ],
+        'container' => [
+            'class' => \yii\di\Container::class,
+//            'singletons' => [
+//                \app\Infrastructure\Contract\IngredientRepositoryInterface::class => [
+//                    ['class' => \app\Infrastructure\Repositories\IngredientRepository::class],
+//                    []
+//                ],
+//                \app\Share\Contracts\ConstructDishesInterface::class => [
+//                    ['class' => \app\Share\Handlers\ConstructDishesHandler::class],
+//                    [
+////                        \yii\di\Instance::of(\app\Infrastructure\Contract\IngredientRepositoryInterface::class),
+////                        \yii\di\Instance::of(\app\Infrastructure\Contract\IngredientRepositoryInterface::class)
+//                    ]
+//                ],
+//                \app\Share\Builders\DishesBuilder::class => [
+//                    ['class' => \app\Share\Builders\DishesBuilder::class],
+//                    []
+//                ],
+//            ]
+//            require __DIR__ . '/container_di_common.php'
+        ],
     ],
     'params' => $params,
 ];
